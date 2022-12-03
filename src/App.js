@@ -2,6 +2,9 @@ import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 import { useRef, useState } from "react";
+import Lifecycle from "./Lifecycle";
+
+//https://jsonplaceholder.typicode.com/comments
 // const dummyList = [
 //   {
 //     id: 1,
@@ -43,15 +46,24 @@ function App() {
     setData([newItem, ...data]);
   };
 
-  const onDelete = (targetId) => {
+  const onRemove = (targetId) => {
     console.log(`${targetId}가 삭제되었습니다.`);
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
   };
+
+  const onEdit = (targetId, newContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetId ? { ...it, content: newContent } : it
+      )
+    );
+  };
   return (
     <div className="App">
+      <Lifecycle />
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList onDelete={onDelete} diaryList={data} />
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
     </div>
   );
 }
