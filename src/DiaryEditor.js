@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { DiaryDispatchContext } from "./App";
 
-const DiaryEditor = ({ onCreate }) => {
+const DiaryEditor = () => {
+  const { onCreate } = useContext(DiaryDispatchContext);
   //이렇게 돔 이벤트에 접근하면 어떤 돔 객체인지 어떻게 알 수 있는거지?
   const authorInput = useRef();
   const contentInput = useRef();
