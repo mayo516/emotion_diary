@@ -1,8 +1,8 @@
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import { useMemo, useEffect, useRef, useState } from "react";
-import OptimizeTest from "./OptimizeTest";
+import { useMemo, useEffect, useRef, useState, useCallback } from "react";
+// import OptimizeTest from "./OptimizeTest";
 // import Lifecycle from "./Lifecycle";
 
 //https://jsonplaceholder.typicode.com/comments
@@ -55,7 +55,7 @@ function App() {
     getData();
   }, []);
   //함수로 이벤트를 끌어올리는게 헷갈림.
-  const onCreate = (author, content, emotion) => {
+  const onCreate = useCallback((author, content, emotion) => {
     const created_date = new Date().getTime();
     const newItem = {
       author,
@@ -65,8 +65,8 @@ function App() {
       id: dataId.current,
     };
     dataId.current += 1;
-    setData([newItem, ...data]);
-  };
+    setData((data) => [newItem, ...data]);
+  }, []);
 
   const onRemove = (targetId) => {
     const newDiaryList = data.filter((it) => it.id !== targetId);
@@ -92,7 +92,6 @@ function App() {
 
   return (
     <div className="App">
-      <OptimizeTest />
       {/* <Lifecycle /> */}
       <DiaryEditor onCreate={onCreate} />
       <div>전체 일기 : {data.length}</div>
